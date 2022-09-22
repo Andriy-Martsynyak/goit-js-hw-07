@@ -1,4 +1,5 @@
 import { galleryItems } from './gallery-items.js';
+
 const gallery = document.querySelector('.gallery');
 let closeModalVariable = null;
 
@@ -17,9 +18,6 @@ const createGalleryTemplate = picturesList => {
     })
     .join('');
 };
-
-gallery.insertAdjacentHTML('afterbegin', createGalleryTemplate(galleryItems));
-
 const OnImgClick = e => {
   if (e.target === e.currentTarget) {
     return;
@@ -28,11 +26,8 @@ const OnImgClick = e => {
   e.preventDefault();
 
   const modal = basicLightbox.create(
-    `
-    <img src="${e.target.dataset.source}" width="800" height="600">`,
-    {
-      onClose: () => window.removeEventListener('keydown', escapeClose),
-    }
+    `<img src="${e.target.dataset.source}" width="800" height="600">`,
+    { onClose: () => window.removeEventListener('keydown', escapeClose) }
   );
 
   closeModalVariable = modal;
@@ -40,9 +35,6 @@ const OnImgClick = e => {
 
   window.addEventListener('keydown', escapeClose);
 };
-
-gallery.addEventListener('click', OnImgClick);
-
 const escapeClose = e => {
   console.log(e);
 
@@ -51,4 +43,6 @@ const escapeClose = e => {
   }
 };
 
+gallery.insertAdjacentHTML('afterbegin', createGalleryTemplate(galleryItems));
+gallery.addEventListener('click', OnImgClick);
 gallery.addEventListener('keydown', escapeClose);
